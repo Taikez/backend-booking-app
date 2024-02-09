@@ -1,1 +1,1 @@
-# booking-app
+# backend-booking-app

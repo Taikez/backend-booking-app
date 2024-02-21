@@ -1,4 +1,5 @@
 import Hotel from "../models/Hotel.js"
+import { createError } from "../utils/error.js";
 
 export const createHotel = async(req, res, next) => {
     const newHotel = new Hotel(req.body)
@@ -18,7 +19,8 @@ export const updateHotel = async(req, res, next) => {
             { $set: req.body },
             { new: true },
         )
-        res.status(200).json(updatedHotel)
+        if(updatedHotel === null || updatedHotel === undefined) return next(createError(404, "Hotel not found."))
+        else res.status(200).json(updatedHotel)
     } catch(err){
         next(err)
     }
@@ -26,8 +28,9 @@ export const updateHotel = async(req, res, next) => {
 
 export const deleteHotel = async(req, res, next) => {
     try { 
-        await Hotel.findByIdAndDelete(req.params.id)
-        res.status(200).json("Hotel successfully deleted.")
+        const deletedHotel = await Hotel.findByIdAndDelete(req.params.id)
+        if(deletedHotel === null || deletedHotel === undefined) return next(createError(404, "Hotel not found."))
+        else res.status(200).json("Hotel successfully deleted.")
     } catch(err){
         next(err)
     }
@@ -36,7 +39,8 @@ export const deleteHotel = async(req, res, next) => {
 export const getHotel = async(req, res, next) => {
    try { 
         const hotel = await Hotel.findById(req.params.id)
-        res.status(200).json(hotel)
+        if(hotel === null || hotel === undefined) return next(createError(404, "Hotel not found."))
+        else res.status(200).json(hotel)
     } catch(err){
         next(err)
     }

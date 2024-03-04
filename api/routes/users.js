@@ -16,12 +16,12 @@ router.get("/checkadmin/:id", verifyAdmin, (req, res, next)=> {
     res.send("Hello, Admin! You have successfully logged in.")
 })
 
-router.put("/:id", verifyUser, updateUser)
+router.put("/update/:id", verifyUser, updateUser)
 
-router.delete("/:id", verifyUser, deleteUser)
+router.delete("/delete/:id", verifyUser, deleteUser)
 
-router.get("/:id", verifyUser, getUser)
+router.get("/get/:id", verifyUser, getUser)
 
-router.get("/", verifyAdmin, getUsers)
+router.get("/get", verifyAdmin, getUsers)
 
 export default router
